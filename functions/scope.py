@@ -12,5 +12,5 @@ def greet():
         message = "b"#local variable
     print(message)#is accessible
     
-    
 print(message)
+    
