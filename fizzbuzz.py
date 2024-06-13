@@ -8,14 +8,13 @@
 
 
 def fizz_buzz(input):
+    if (input % 3 == 0) and (input % 5 == 0): 
+        return "FizzBuzz"#dont need an elif
     if input % 3 == 0:
-        print("Fizz")
+        return "Fizz"
     if input % 5 == 0:
-        print("Buzz")
-    if input % 3 == 0 and input % 5 == 0:
-        print("FizzBuzz")   
-    else:
-        return input
+        return "Buzz"
+    return input#we dont need an else statement
     
     
-fizz_buzz(15)   
+print(fizz_buzz(2))
