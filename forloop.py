@@ -29,3 +29,5 @@ print([1, 2, 3, 4, 5])
 #range objects takes very small amout of memory
 
 for i in range(1, 10): print(i)
+
+print(range(1, 20))
