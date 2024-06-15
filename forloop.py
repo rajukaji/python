@@ -27,3 +27,5 @@ print(type(range(5)))#range object are iterable like strings and lists
 print([1, 2, 3, 4, 5])
 
 #range objects takes very small amout of memory
+
+for i in range(1, 10): print(i)
