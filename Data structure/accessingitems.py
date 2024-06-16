@@ -22,7 +22,7 @@ numbers = list(range(20))
 
 print(numbers)
 
-print(numbers[::2])
+print(numbers[::2])#prints with the differnce of 2
 
 print(numbers[::-1])#in reverse order
 
