@@ -17,3 +17,9 @@ sets = {'a', 'e', 'i', 'o', 'u'}
 print(lis)
 print(dict)
 print(sets)
+
+sets.pop()#removes 'u', or the last elements, takes no arguements
+print(sets)
+
+lis.append('u')
+print(lis)#list method append()
