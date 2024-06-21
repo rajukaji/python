@@ -22,3 +22,5 @@ print(items)
 items.sort(key=lambda item:item[1])#items.sort(key=lambda parameters:expression)
 
 print(items)
+#syntax of lambda function one line function
+#lambda parameters:expression

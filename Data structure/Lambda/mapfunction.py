@@ -25,6 +25,8 @@ x = map(lambda item: item[1], items)#takes 2 parameters map(function, *iterables
 for item in x: 
     print(item)
 
+
+#map(function, *iterables) also for filter() function
 price = list(map(lambda item: item[1], items))
 #converting map object into list object
 #so we dont need a for loop now, simply print the list
