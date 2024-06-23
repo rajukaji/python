@@ -34,4 +34,3 @@ x, y, z, a, b = point
 if 'p' in point:
     print("Exists")
 
-
