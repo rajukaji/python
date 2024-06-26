@@ -20,6 +20,9 @@ print(point["x"])
 point["x"] =10
 print(point["x"])
 
+point["z"] = 20
+print(point)
+
 #we can access values in different ways
 if "a" in point:
     print("Exists")
@@ -28,6 +31,7 @@ if "a" in point:
 print(point.get("y", 0))
 #0 is default value to return if y doesn't exist
 #replace 0 with any other values
+
 
 print(point)
 
