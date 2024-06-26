@@ -20,7 +20,7 @@ print(point["x"])
 point["x"] =10
 print(point["x"])
 
-point["z"] = 20
+point["z"] = 20#new value is added
 print(point)
 
 #we can access values in different ways
