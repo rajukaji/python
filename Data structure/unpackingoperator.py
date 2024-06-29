@@ -12,5 +12,6 @@ values = list(range(5))#printing 0 to 4
 print(values)
 
 #now without using the list
-values = [*range(5), *"unpack"]#the outputs are stored in the values
+values = [*range(5), *"unpack"]#the outputs are stored in the values as a list
 print(values)
+
