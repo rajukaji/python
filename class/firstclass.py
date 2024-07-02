@@ -14,4 +14,4 @@ class ClassName:
 function = ClassName()
 print(type(function))
 
-print(isinstance(function, ClassName))
+print(isinstance(function, ClassName))#true or false value function is instance of ClassName
