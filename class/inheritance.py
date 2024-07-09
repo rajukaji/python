@@ -28,3 +28,15 @@ class Fish(Animal):#animal is a base class
 m = Mammal()#create mammal object
 m.eat()
 print(m.age)
+
+print(isinstance(m, Mammal)) #is m an instance of Mammal?
+
+#object is the base class for all the clases in python. 
+#even for the parent class, class Animal(object): is the rule, 
+
+print(isinstance(m, object))
+
+#o = object()#creating an empty objects
+
+print(issubclass(Mammal, Animal))#is Mammal a subclass of Animal
+print(issubclass(Mammal, object))#is Mammal a subclass of object?
