@@ -7,3 +7,4 @@ print(divide)#prints float result
 
 divide = 20 // 2
 print(divide)#prints integer
+
