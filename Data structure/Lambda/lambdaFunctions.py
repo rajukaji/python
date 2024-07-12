@@ -20,6 +20,7 @@ print(items)
 #we use now lambda anonymous function, we done need to define the functions as above
 
 items.sort(key=lambda item:item[1])#items.sort(key=lambda parameters:expression)
+#lambda parameter/arguements: return_value
 
 print(items)
 #syntax of lambda function one line function
