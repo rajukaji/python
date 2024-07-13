@@ -1,0 +1,2 @@
+def sayName():
+    print('Petu')

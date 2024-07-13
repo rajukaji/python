@@ -7,6 +7,8 @@ try:#if
     age = int(input("Age: "))
     xfactor = 10 / age #input 0 to get zerodivision error
     print("correct input!")
+#except:
+ #   print('The value entered is illegal')
 except ValueError: #else, 
     print("You didn't enter a valid age")
 except ZeroDivisionError:
@@ -21,3 +23,5 @@ finally:
 #its important to try to handle the exception errors to avoid program crashing
 
 print("handled properly!")
+
+#other error, IndexError
