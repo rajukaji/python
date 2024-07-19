@@ -8,7 +8,7 @@ print(type(str.split()))#list type
 str1 = ""
 for i in str.split()[::-1]:
     #print(str1)
-    str1 = str1 + i + ' '
+    str1 = str1 + i + ' '   #or use ' '.join(list)
 
 print(str1)
 
