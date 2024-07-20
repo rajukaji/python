@@ -14,3 +14,4 @@ print(max_value(str))
 # 2 * 6 = 12
 # 2 + 6 = 8
 # 12 > 8, so 12 is returned
+print(type(3))
