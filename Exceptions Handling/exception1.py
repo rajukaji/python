@@ -8,7 +8,8 @@ try:#if
     xfactor = 10 / age #input 0 to get zerodivision error
     print("correct input!")
 #except:
- #   print('The value entered is illegal')
+ #   print('The value entered is illegal') 
+ # this is for all kinds of errors like undefined,,,, 
 except ValueError: #else, 
     print("You didn't enter a valid age")
 except ZeroDivisionError:
