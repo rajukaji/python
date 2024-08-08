@@ -31,7 +31,7 @@ def insertion_sort(lst):
         
         j = i - 1
         
-        while j >= 0 and key < lst[j]:
+        while j >= 0 and lst[j] > key: # for descending check lst[j] < key
             lst[j + 1] = lst[j]
             j = j - 1
 
