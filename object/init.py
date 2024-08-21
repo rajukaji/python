@@ -6,3 +6,4 @@ class PassValue:
     
 value = PassValue(5)
 print(value.key)
+
