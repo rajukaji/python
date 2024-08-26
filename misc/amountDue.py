@@ -4,7 +4,6 @@ changes = (5,10,25)
 amt = 0
 
 
-
 while amount_due:
         userPayment = int(input("Insert changes: "))
 
