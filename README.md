@@ -11,3 +11,5 @@
 #adding openInTerminal in vs code, for the code runner to also take inputs, otherwise, it only gives outputs no input,
 
 #open bash terminal = ctrl + ~
+
+#comment selected codes = ctrl + /
