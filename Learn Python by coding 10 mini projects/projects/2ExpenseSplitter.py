@@ -2,10 +2,13 @@ def calculate_split(total_amount: float, number_of_people: int, currency:str) ->
     # return None because we are only displaying results
     if number_of_people < 1:
         raise ValueError('Number of people must be greater than one.')
+    #raise exception if there is a value error
     
     share_per_person: float = total_amount / number_of_people
 
     print(f'Total expenses : {currency}{total_amount:,.2f}')
+    # ,.2f comma is for thousand separator
+    #.2f if for 2 decimila placements
     print(f'Number of people: {number_of_people}')
     print(f'Each person should pay: {currency}{share_per_person:,.2f}')
 
