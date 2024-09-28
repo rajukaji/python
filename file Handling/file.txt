@@ -1,4 +1,4 @@
 hello python
-#! /bin/bash
+# bin/bash
 
 echo "Guten Morgen"
