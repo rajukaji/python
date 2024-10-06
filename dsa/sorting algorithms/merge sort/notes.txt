@@ -1,0 +1,22 @@
+Merge sort breaks a list into multiple sublists, and each sublist is then sorted individually.
+
+Then, the sorted sublists are combined to form the sorted list.
+
+This strategy is known as divide-and-conquer.
+
+Time complexity:
+
+As recursion is used in merge sort, we need to use the master theorem to find its complexity.
+
+To learn more about how the master theorem is used in calculating the time complexity of recurrence relations, refer to our Complexity Calculation course.
+
+Best Case Complexity: O(n log n)
+Worst Case Complexity: O(n log n)
+Average Case Complexity: O(n log n)
+
+Space Complexity
+In the merge phase, elements from two sublists are copied into a newly created list. In the very last merge step, the new list is exactly as large as the list to be sorted.
+
+Thus, if the input list is twice as large, the additional storage space required is doubled.
+
+So, the space complexity of the merge sort is O(n).

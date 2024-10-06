@@ -28,14 +28,19 @@ def insertion_sort(lst):
     
     for i in range(1, len(lst)):
         key = lst[i]
+        # key is the first element of the unsorted list
+        # lets suppose there are two list, one sorted and another unsorted
+        # first list is always sorted, 2nd unsorted has a key, the first element
         
         j = i - 1
         
         while j >= 0 and lst[j] > key: # for descending check lst[j] < key
             lst[j + 1] = lst[j]
+            # shift first
             j = j - 1
 
         lst[j + 1] = key
+        # putting in the correct position
     
     return lst
 
