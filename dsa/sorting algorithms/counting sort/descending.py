@@ -1,5 +1,3 @@
-# Replace ___ with your code
-
 def counting_sort(lst):
     # write your code here
     if len(lst) <= 1:

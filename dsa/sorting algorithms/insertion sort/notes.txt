@@ -1,0 +1,5 @@
+Introduction
+Insertion sort works by repeatedly
+
+taking an element from the unsorted portion of the list
+and inserting it into its correct position within the already-sorted portion
