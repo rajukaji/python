@@ -15,4 +15,3 @@ print(a.ndim)
 print(a.shape)
 # size of the array in each dimension
 
-print(np.org)
