@@ -14,3 +14,27 @@ def extract(index):
 genres = extract(11)
 
 # to extract a column that we need with index
+
+
+def freq_table(lst):
+# create a frequency table
+    the_dict = {}
+    
+    for i in lst:
+        if i in the_dict:
+            the_dict[i] += 1
+        else:
+            the_dict[i] = 1
+
+            
+    return the_dict
+
+
+
+genres_ft = freq_table(genres)
+
+print(genres)
+print(genres_ft)
+
+print(extract(4))
+print(freq_table(extract(4)))
