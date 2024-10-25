@@ -27,3 +27,9 @@ print(string.replace('e', ' meow '))
 
 salary = '$1,000,000+'
 print(salary.replace('$', ''))
+
+salary = salary.replace('$', '')
+salary = salary.replace(',', '')
+salary = salary.replace('+', '')
+
+print(salary)
