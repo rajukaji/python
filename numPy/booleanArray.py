@@ -19,3 +19,7 @@ result = c[c_bool]
 # only true items
 
 print(result)
+
+column_bool = [True, False, True, True]
+
+print(c[column_bool])
