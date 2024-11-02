@@ -18,3 +18,9 @@ print(change.std())
 
 print(change.describe())
 # see non null values
+
+boolean_mask = change.isnull()
+print(boolean_mask)
+
+not_null = change.notnull()
+print(not_null)

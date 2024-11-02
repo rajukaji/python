@@ -4,6 +4,9 @@ df = pd.DataFrame({
     'a': [1, 2, 3], 
     'b': [1, 2, 2]
 })
+
+# label based selection loc
+# iloc is an inteer location based selection
 # use df.loc['row_name'] for row selection with all columns
 # use dfobj['colname'] for column selection all rows
 
