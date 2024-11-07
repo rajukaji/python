@@ -6,6 +6,7 @@ y_coordinates = [100, 200, 300, 400, 500]
 
 plt.plot(x_coordinates, y_coordinates)
 plt.ticklabel_format(axis='x', style='plain')
+plt.xticks(rotation=45)
 plt.title('matploptlib.pyplot')
 plt.xlabel('months')
 plt.ylabel('population')
