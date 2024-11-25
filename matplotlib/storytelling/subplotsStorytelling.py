@@ -96,6 +96,27 @@ axes[0].text(0.5, 3500, s='The virus kills 851 people each day', size=14, weight
 # subtitle
 axes[0].text(0.5, 3150, 'Average number of daily deaths per month in the US', size=12)
 
+# creating horizontal line 
+# Make the line shorter — we control the line's length using xmin and xmax parameters.
+# Increase the line's width to make it look like a rectangle — we use the linewidth parameter.
+# Change the color to '#af0b1e' and increase its transparency — we use the color and alpha parameters.
 
+axes[0].axhline(y=1600, xmin=0.5, xmax=0.8, linewidth=6, color='#af0b1e', alpha=0.1)
+axes[1].axhline(y=1600, xmin=0.5, xmax=0.8, linewidth=6, color='#af0b1e', alpha=0.1)
+axes[2].axhline(y=1600, xmin=0.5, xmax=0.8, linewidth=6, color='#af0b1e', alpha=0.1)
+axes[3].axhline(y=1600, xmin=0.5, xmax=0.8, linewidth=6, color='#af0b1e', alpha=0.1)
+
+# we can do is create line and add values as below
+for ax, xmax, death in zip(axes, xmax_vals, deaths):
+    ax.axhline(y=1600, xmin=0.5, xmax=0.8,
+               linewidth=6, color='#af0b1e',
+               alpha=0.1)
+    # created the line with low transparency
+
+    ax.axhline(y=1600, xmin=0.5, xmax=xmax,
+               linewidth=6, color='#af0b1e')
+
+    ax.text(7.5, 1850, format(death,','), color='#af0b1e', weight='bold')
+    # to label horizontol line we created with death numbers
 
 plt.show()
