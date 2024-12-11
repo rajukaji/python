@@ -1,4 +1,6 @@
 import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
 
 '''
 We'll use what we learned in the last lesson to analyze the 2015, 2016, and 2017 World Happiness Reports. 
@@ -116,4 +118,27 @@ merged_suffixes = pd.merge(left=three_2015, right=three_2016, how='left', on='Co
 merged_updated_suffixes = pd.merge(left=three_2016, right=three_2015, how='left', on='Country', suffixes=('_2016', '_2015'))
 
 # join based on index, set right_index and left_index to True
+
+
+
+four_2015 = happiness2015[['Country','Happiness Rank','Year']].iloc[2:6]
+three_2016 = happiness2016[['Country','Happiness Rank','Year']].iloc[2:5]
+merge_index = pd.merge(left = four_2015,right = three_2016, left_index = True, right_index = True, suffixes = ('_2015','_2016'))
+
+rows = 4
+columns = 6
+
+merge_index_left = pd.merge(left=four_2015, right=three_2016, left_index = True, right_index = True, suffixes=('_2015', '_2016'), how='left')
+
+
+happiness2017.rename(columns={'Happiness.Score': 'Happiness Score'}, inplace=True)
+# renaming the 'Happiness.Score' column
+
+combined = pd.concat([happiness2015, happiness2016, happiness2017])
+
+pivot_table_combined = combined.pivot_table(values='Happiness Score', index='Year', aggfunc=np.mean)
+
+# creating a horizontal bar plot
+pivot_table_combined.plot(kind='barh', title='Mean Happiness Scores by Year', xlim=(0, 10))
+plt.show()
 
