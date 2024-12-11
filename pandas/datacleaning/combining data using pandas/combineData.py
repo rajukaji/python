@@ -94,6 +94,7 @@ Since it's much more common to use inner and left joins for database-style joins
 
 '''
 
+# using suffixes
 
 three_2015 = happiness2015[['Country','Happiness Rank','Year']].iloc[2:5]
 three_2016 = happiness2016[['Country','Happiness Rank','Year']].iloc[2:5]
@@ -102,3 +103,17 @@ merged = pd.merge(left=three_2015, right=three_2016, on='Country')
 merged_left = pd.merge(left=three_2015, right=three_2016, on= 'Country', how='left')
 
 merged_left_updated = pd.merge(left=three_2016, right=three_2015, on='Country', how='left')
+
+three_2015 = happiness2015[['Country','Happiness Rank','Year']].iloc[2:5]
+three_2016 = happiness2016[['Country','Happiness Rank','Year']].iloc[2:5]
+
+
+merged = pd.merge(left=three_2015, right=three_2016, how='left', on='Country')
+merged_updated = pd.merge(left=three_2016, right=three_2015, how = 'left', on='Country')
+
+
+merged_suffixes = pd.merge(left=three_2015, right=three_2016, how='left', on='Country', suffixes=('_2015', '_2016'))
+merged_updated_suffixes = pd.merge(left=three_2016, right=three_2015, how='left', on='Country', suffixes=('_2016', '_2015'))
+
+# join based on index, set right_index and left_index to True
+
