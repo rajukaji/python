@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+import re
 
 happiness2015 = pd.read_csv('World_Happiness_2015.csv')
 
@@ -97,3 +98,111 @@ national_accounts = merged['SpecialNotes'].str.contains(pattern, na=False, regex
 merged_national_accounts = merged[national_accounts]
 
 print(merged_national_accounts.head())
+
+# Extracting Substrings from a Series
+
+
+'''
+With regular expressions, we use the following syntax to indicate a character could be a range of numbers:
+
+pattern = r"[0-9]"
+
+And we use the following syntax to indicate a character could be a range of letters:
+
+#lowercase letters
+pattern1 = r"[a-z]"
+​
+#uppercase letters
+pattern2 = r"[A-Z]"
+
+We could also make these ranges more restrictive. For example, if we wanted to find a three character substring in a column that starts with a number between 1 and 6 and ends with two letters of any kind, we could use the following syntax:
+
+pattern = r"[1-6][a-z][a-z]"
+
+If we have a pattern that repeats, we can also use curly brackets { and } to indicate the number of times it repeats:
+
+pattern = r"[1-6][a-z][a-z]" = r"[1-6][a-z]{2}"
+'''
+
+pattern = r"([1-2][0-9]{3})"
+# {3} is to repeat [0-9] 3 times ie r'[1-2][0-9][0-9][0-9]'
+# dont forget the bracket r'()'
+# Create a regular expression that will match years and assign it to the variable pattern. eg, 2015, 1999
+
+years = merged['SpecialNotes'].str.extract(pattern)
+
+'''
+In the last exercise, we learned how to identify more complex 
+patterns with regular expressions and extract substrings from a 
+column using that pattern.
+
+When we used the Series.str.extract() method, we enclosed our
+ regular expression in parentheses. The parentheses indicate that
+   only the character pattern matched should be extracted and
+     returned in a series. We call this a capturing group.
+'''
+
+# However, the Series.str.extract() method will only extract 
+# the first match of the pattern. If we wanted to extract all 
+# of the matches, we can use the Series.str.extractall() method.
+
+'''
+ let's use the same regular expression from the last screen
+   to extract all the years from the Special Notes column, 
+   except this time, we'll use a named capturing group. 
+   Using a named capturing group means that we can refer 
+   to the group by the specified name instead of just a number. 
+   We can use the following syntax to add a name: 
+   (?P<Column_Name>...).
+
+Below, we name the capturing group Years:
+
+pattern = r"(?P<Years>[1-2][0-9]{3})"
+merged['SpecialNotes'].str.extractall(pattern)
+
+'''
+
+merged = merged.set_index('Country')
+# we set index the rows by country
+
+pattern = r"(?P<Years>[1-2][0-9]{3})"
+
+years = merged['IESurvey'].str.extractall(pattern)
+
+value_counts = years.value_counts
+
+print(value_counts)
+
+'''
+Let's add those two groups to our regex and try to extract
+ them again:
+
+pattern = r"(?P[1-2][0-9]{3})(/)?(?P[0-9]{2})?"
+years = merged['IESurvey'].str.extractall(pattern)
+
+Explain
+
+Copy
+Note that we also added a question mark, ?, after each of
+ the two new groups to indicate that a match for those groups 
+ is optional. This allows us to extract years listed in the
+   yyyy format AND the yyyy/yy format at once.
+'''
+
+pattern = r"(?P<First_Year>[1-2][0-9]{3})/?(?P<Second_Year>[0-9]{2})?"
+
+# created a regular expression that extracts the pattern "yyyy/yy" and saved it to a variable called pattern. Notice that we didn't enclose /? in parentheses so that the resulting dataframe will only contain a First_Year and Second_Year column.
+
+# We've created a regular expression that extracts the pattern "yyyy/yy" and saved it to a variable called pattern. Notice that we didn't enclose /? in parentheses so that the resulting dataframe will only contain a First_Year and Second_Year column. and not include for '/' column
+
+
+years = merged['IESurvey'].str.extractall(pattern)
+# Use the Series.str.extractall() method to extract pattern from the IESurvey column. Assign the result to years.
+
+
+first_two_year = years['First_Year'].str.slice(start=0, stop=2)
+# Use vectorized slicing to extract the first two numbers from the First_Year column in years (For example, extract "20" from "2000"). Assign the result to first_two_year.
+
+
+years['Second_Year'] = first_two_year + years['Second_Year']
+# Add first_two_year to the Second_Year column in years, so that Second_Year contains the full year (ex: "2000"). Assign the result to years['Second_Year'].
