@@ -206,3 +206,71 @@ first_two_year = years['First_Year'].str.slice(start=0, stop=2)
 
 years['Second_Year'] = first_two_year + years['Second_Year']
 # Add first_two_year to the Second_Year column in years, so that Second_Year contains the full year (ex: "2000"). Assign the result to years['Second_Year'].
+
+
+'''
+Instructions
+As a reminder, we would like to clean the values in the IncomeGroup column to a standardized format shown in the table below.
+
+Current Values
+Updated Values
+Upper middle income	UPPER MIDDLE
+Lower middle income	LOWER MIDDLE
+High income: OECD	HIGH OECD
+Low income	LOW
+High income: nonOECD	HIGH NONOECD
+Use some of the string methods above to clean the IncomeGroup column.
+Make sure to remove the whitespace at the end of the strings.
+
+'''
+'''
+Let's use some of the vectorized string methods below to update the values in the IncomeGroup column next:
+
+Method	Description
+Series.str.split()	Splits each element in the Series.
+Series.str.strip()	Strips whitespace from each string in the Series.
+Series.str.lower()	Converts strings in the Series to lowercase.
+Series.str.upper()	Converts strings in the Series to uppercase.
+Series.str.get()	Retrieves the ith element of each element in the Series.
+Series.str.replace()	Replaces a regex or string in the Series with another string.
+Series.str.cat()	Concatenates strings in a Series.
+Series.str.extract()	Extracts substrings from the Series matching a regex pattern.
+'''
+
+# merged[merged['IncomeGroup'] == 'Upper middle income'] = 'UPPER MIDDLE'
+# DONT DO THIS  it will update all the avlues with the assigned values for all the fields related to that data
+
+
+# merged[merged['IncomeGroup'] == 'Lower middle income'] = 'LOWER MIDDLE'
+
+# merged[merged['IncomeGroup'] == 'High income: OECD'] = 'HIGH OECD'
+
+# merged[merged['IncomeGroup'] == 'Low income'] = 'LOW'
+
+# merged[merged['IncomeGroup'] == 'High income: nonOECD'] = 'HIGH NONOECD'
+
+# instead using series.str.replace()
+
+merged['IncomeGroup'] = merged['IncomeGroup'].str.replace(pat='Upper middle income', repl='UPPER MIDDLE')
+
+
+merged['IncomeGroup'] = merged['IncomeGroup'].str.replace(pat='Lower middle income', repl='LOWER MIDDLE')
+
+merged['IncomeGroup'] = merged['IncomeGroup'].str.replace(pat='High income: OECD', repl='HIGH OECD')
+
+merged['IncomeGroup'] = merged['IncomeGroup'].str.replace(pat='Low income', repl='LOW')
+
+merged['IncomeGroup'] = merged['IncomeGroup'].str.replace(pat='High income: nonOECD', repl='HIGH NONOECD')
+
+print(merged['IncomeGroup'].head(25))
+
+# Use the df.pivot_table() method to return the mean of each income group in the IncomeGroup column. Set the index parameter equal to the IncomeGroup column and the values parameter equal to the Happiness Score column. Assign the result to pv_incomes.
+pv_incomes = merged.pivot_table(values='Happiness Score', index='IncomeGroup')
+# by default mean as aggfunc
+
+
+# Use the df.plot() method to plot the results. Set the kind parameter equal to bar, the rot parameter equal to 30, and the ylim parameter equal to (0,10).
+pv_incomes.plot(kind='bar', rot=30, ylim=(0, 10))
+plt.show()
+
+# https://pandas.pydata.org/pandas-docs/stable/user_guide/text.html#method-summary

@@ -205,3 +205,22 @@ melt = pd.melt(happiness2015, id_vars=main_cols, value_vars=factors)
 melt['Percentage'] = round(melt['value']/melt['Happiness Score'] * 100, 2)
 # new column percentage, with round(data, 2)
 
+
+# Aggregate the Data and Create a Visualization
+
+'''
+The melt function moved the values in the seven columns -
+ Economy, Health, Family, Freedom, Generosity, Trust, and Dystopia Residual -
+ to the same column, which meant we could transform them all at once.
+
+You may have also noticed that now the data is in a format that makes it easier to aggregate. 
+We refer to data in this format as tidy data. 
+'''
+
+# df.pivot_table()
+pv_melt = melt.pivot_table(index='variable', values='value')
+
+
+pv_melt.plot(kind='pie', y='value', legend=False)
+plt.show()
+
