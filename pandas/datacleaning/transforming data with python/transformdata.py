@@ -63,8 +63,10 @@ def label(element):
     
     
 economy_impact_map = happiness2015['Economy'].map(label)
+# map to series. series.map(function)
 
 economy_impact_apply = happiness2015['Economy'].apply(label)
+# series.apply()
 
 equal = economy_impact_map.equals(economy_impact_apply)
 
