@@ -141,4 +141,3 @@ pivot_table_combined = combined.pivot_table(values='Happiness Score', index='Yea
 # creating a horizontal bar plot
 pivot_table_combined.plot(kind='barh', title='Mean Happiness Scores by Year', xlim=(0, 10))
 plt.show()
-
