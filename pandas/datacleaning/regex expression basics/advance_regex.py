@@ -140,9 +140,9 @@ sql_pivot = hn_sql.pivot_table(index='flavor', values='num_comments', aggfunc='m
 
 # Using Capture Groups to Extract Data
 
-# [\d.]+
+# [\d\.]+
 
-# this means, one or more digit or characters
+# this means, one or more digit or period
 
 '''
 Instructions
@@ -161,4 +161,23 @@ pattern = r"[Pp]ython ([\d\.]+)"
 py_versions = titles.str.extract(pattern, expand=False)
 py_versions_freq = dict(py_versions.value_counts())
 # converting into a dictonary
+
+def first_10_matches(pattern):
+    """
+    Return the first 10 story titles that match
+    the provided regular expression
+    """
+    all_matches = titles[titles.str.contains(pattern)]
+    first_10 = all_matches.head(10)
+    return first_10
+
+pattern = r"\b[Cc]\b[^\.\+]"
+# \b is a word boundary
+# we only want C or c characters to search for, not C++ or C., we dont want anything
+#  after C which is why, we are avoiding '.' or '+'
+
+first_ten = first_10_matches(pattern)
+
+
+#  Using Lookarounds to Control Matches Based on Surrounding Text
 
