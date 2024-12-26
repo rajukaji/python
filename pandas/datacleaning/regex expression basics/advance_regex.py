@@ -442,7 +442,7 @@ The repl parameter is the text that you would like to substitute for the match. 
 example where we replace all capital letters in a string with dashes:
 
 string = "aBcDEfGHIj"
-​
+
 print(re.sub(r"[A-Z]", "-", string))
 
 a-c--f---j
@@ -496,4 +496,247 @@ titles_clean = titles.str.replace(pat=pattern, repl='email', flags=re.I, regex=T
 
 
 # Extracting Domains from URLs
+
+'''
+Over the final three screens in this lesson, we'll extract components of URLs from our dataset. 
+As a reminder, most stories on Hacker News contain a link to an external resource.
+
+The task we will be performing first is extracting the different components of the URLs in order to analyze them.
+ On this screen, we'll start by extracting just the domains. Below is a list of some of the URLs in the dataset, 
+ with the domains highlighted in color, so you can see the part of the string we want to capture.
+
+URL examples showing domain
+The domain of each URL excludes the protocol (e.g. https://) and the page path
+(e.g. /Technology-Ventures-Enterprise-Thomas-Byers/dp/0073523429).
+
+There are several ways that you could use regular expressions to extract the domain,
+ but we suggest the following technique:
+
+Using a series of characters that will match the protocol.
+Inside a capture group, using a set that will match the character classes used in the domain.
+Because all of the URLs either end with the domain, or continue with page path which starts
+ with / (a character not found in any domains), we don't need to cater for this part of the URL 
+ in our regular expression.
+Once you have extracted the domains, you will be building a frequency table so we can determine 
+the most popular domains. There are over 7,000 unique domains in our dataset, so to make the frequency 
+table easier to analyze, we'll look at only the top 20 domains.
+'''
+
+'''
+Instructions
+Write a regular expression to extract the domains from test_urls and assign the result to test_urls_clean.
+ We suggest the following technique:
+Using a series of characters that will match the protocol.
+Inside a capture group, using a set that will match the character classes used in the domain.
+Because all of the URLs either end with the domain, or continue with page path which starts
+ with / (a character not found in any domains), we don't need to cater for this part of the URL
+   in our regular expression.
+'''
+
+
+test_urls = pd.Series([
+ 'https://www.amazon.com/Technology-Ventures-Enterprise-Thomas-Byers/dp/0073523429',
+ 'http://www.interactivedynamicvideo.com/',
+ 'http://www.nytimes.com/2007/11/07/movies/07stein.html?_r=0',
+ 'http://evonomics.com/advertising-cannot-maintain-internet-heres-solution/',
+ 'HTTPS://github.com/keppel/pinn',
+ 'Http://phys.org/news/2015-09-scale-solar-youve.html',
+ 'https://iot.seeed.cc',
+ 'http://www.bfilipek.com/2016/04/custom-deleters-for-c-smart-pointers.html',
+ 'http://beta.crowdfireapp.com/?beta=agnipath',
+ 'https://www.valid.ly?param',
+ 'http://css-cursor.techstream.org'
+])
+
+
+
+test_urls = pd.Series([
+ 'https://www.amazon.com/Technology-Ventures-Enterprise-Thomas-Byers/dp/0073523429',
+ 'http://www.interactivedynamicvideo.com/',
+ 'http://www.nytimes.com/2007/11/07/movies/07stein.html?_r=0',
+ 'http://evonomics.com/advertising-cannot-maintain-internet-heres-solution/',
+ 'HTTPS://github.com/keppel/pinn',
+ 'Http://phys.org/news/2015-09-scale-solar-youve.html',
+ 'https://iot.seeed.cc',
+ 'http://www.bfilipek.com/2016/04/custom-deleters-for-c-smart-pointers.html',
+ 'http://beta.crowdfireapp.com/?beta=agnipath',
+ 'https://www.valid.ly?param',
+ 'http://css-cursor.techstream.org'
+])
+
+
+# pattern = r'https?://(\b\w+-?\w+?\b)?.(\w+)?.?[^/](\w+)?'
+
+pattern = r'https?://([\w\-\.]+)'
+# pattern = r'https?://(w{3}?\w+.\w+.?\w+)'
+# [https?://] [www.] [amazon] [.com] [/Technology-Ventures-Enterprise-Thomas-Byers/dp/0073523429]
+# [\w\-\.]+ it means that it can have any word character, hyphen or dot
+# + means that it can have one or more of the characters in the square brackets
+# when there is nothing to match or after /, it will stop matching
+
+test_urls_clean = test_urls.str.extract(pattern, expand=False, flags=re.I)
+
+
+
+'''
+Use a regular expression to extract the domains from the url column of the hn dataframe. Assign the result to domains.
+Note that passing the cases in test_urls does not guarantee passing all the cases in the url column.
+
+'''
+
+# pattern = r'https?://[(www)(\w+)]?(.)(\w+)(.)?(\w+)?/'
+# pattern = r'https?://(w{3}?\w+.\w+.?\w+)'
+
+domains = hn['url'].str.extract(pat= pattern, expand=False, flags=re.I)
+
+top_domains = domains.value_counts().head()
+
+#  Extracting URL Parts Using Multiple Capture Groups
+
+'''
+Having extracted just the domains from the URLs, on this final screen we'll extract each of the three
+ component parts of the URLs:
+
+Protocol
+Domain
+Page path
+URL examples showing protocol, domain, and page path
+In order to do this, we'll create a regular expression with multiple capture groups. Multiple capture 
+groups in regular expressions are defined the same way as single capture groups — using pairs of parentheses.
+
+Let's look at how this works using the first few values from the created_at column in our dataset:
+
+created_at = hn['created_at'].head()
+print(created_at)
+created_at = hn['created_at'].head()
+print(created_at)
+
+0     8/4/2016 11:52
+1    1/26/2016 19:30
+2    6/23/2016 22:20
+3     6/17/2016 0:01
+4     9/30/2015 4:12
+Name: created_at, dtype: object
+
+We'll use capture groups to extract these dates and times into two columns:
+
+8/4/2016	11:52
+1/26/2016	19:30
+6/23/2016	22:20
+6/17/2016	0:01
+9/30/2015	4:12
+In order to do this we can write the following regular expression:
+
+multiple capture groups
+Notice how we put a space character between the capture groups, which matches the space character in the original strings.
+
+Let's look at the result of using this regex pattern with Series.str.extract():
+
+pattern = r"(.+)\s(.+)"
+dates_times = created_at.str.extract(pattern)
+print(dates_times)
+
+Explain
+
+Copy
+_          0      1
+0   8/4/2016  11:52
+1  1/26/2016  19:30
+2  6/23/2016  22:20
+3  6/17/2016   0:01
+4  9/30/2015   4:12
+'''
+
+# (.+)\s(.+)
+
+# (     start group 1
+# .+    one or more characters
+# )     end group 1
+
+# \s any whitespace characters 
+
+# (     start group 2
+# .+    one or more characters
+# )     end group 2
+
+
+
+test_urls = pd.Series([
+ 'https://www.amazon.com/Technology-Ventures-Enterprise-Thomas-Byers/dp/0073523429',
+ 'http://www.interactivedynamicvideo.com/',
+ 'http://www.nytimes.com/2007/11/07/movies/07stein.html?_r=0',
+ 'http://evonomics.com/advertising-cannot-maintain-internet-heres-solution/',
+ 'HTTPS://github.com/keppel/pinn',
+ 'Http://phys.org/news/2015-09-scale-solar-youve.html',
+ 'https://iot.seeed.cc',
+ 'http://www.bfilipek.com/2016/04/custom-deleters-for-c-smart-pointers.html',
+ 'http://beta.crowdfireapp.com/?beta=agnipath',
+ 'https://www.valid.ly?param',
+ 'http://css-cursor.techstream.org'
+])
+
+pattern = r'(https?)://([\w\-\.]+)/?(.*)?'
+# /? means that it can have zero or one occurence of the character before it, a quantifier
+# (.*)? means that it can have zero or more of any character, a quantifier
+# * means that it can have zero or more of the character before it
+# if we use .+ after /?, it will give a nan value, because it will try to match one or more of any character
+# so using .*? will match zero or more of any character
+
+test_url_parts = test_urls.str.extract(pattern, expand=False, flags=re.I)
+
+url_parts = hn['url'].str.extract(pattern, expand=False, flags=re.I)
+
+
+#  Using Named Capture Groups to Extract Data
+
+'''
+Our final task will be to name these columns, which we'll do using named capture groups.
+ Let's look at the example from the previous screen where we used two capture groups to extract the date
+   and time as two separate columns:
+
+created_at = hn['created_at'].head()
+
+pattern = r"(.+) (.+)"
+dates_times = created_at.str.extract(pattern)
+print(dates_times)
+
+Explain
+
+Copy
+_          0      1
+0   8/4/2016  11:52
+1  1/26/2016  19:30
+2  6/23/2016  22:20
+3  6/17/2016   0:01
+4  9/30/2015   4:12
+
+In order to name a capture group we use the syntax ?P<name>, where name is the name of our capture group.
+ This syntax goes after the open parentheses, but before the regex syntax that defines the capture group:
+
+named capture groups
+Let's look at the result of this syntax using pandas:
+
+pattern = r"(?P<date>.+) (?P<time>.+)"
+dates_times = created_at.str.extract(pattern)
+print(dates_times)
+
+_       date   time
+0   8/4/2016  11:52
+1  1/26/2016  19:30
+2  6/23/2016  22:20
+3  6/17/2016   0:01
+4  9/30/2015   4:12
+
+Each column has a name corresponding to the name of the capture group it represents.
+'''
+
+# (?P<name>) syntax
+# eg.    (?P<date>.+)
+# (     start group 1
+# ?P<group_name>
+# )     end of capture group
+
+pattern = r"(?P<protocol>https?)://(?P<domain>[\w\.\-]+)/?(?P<path>.*)"
+
+url_parts = hn['url'].str.extract(pattern)
 
