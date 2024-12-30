@@ -278,3 +278,189 @@ So we have a more precise understanding of how a lambda function works,
 
 
 '''
+
+
+hn_sorted_points = sorted(hn_clean, key=(lambda i: i['points']), reverse=True)
+# sort hn_clean by points
+# key is a lambda function that takes a dictionary and returns the value of the points key
+# reverse=True to sort in descending order
+# sorted() function to sort the list of dictionaries hn_clean by points in descending order
+# lambda function to specify the value we want to use to sort the dictionaries
+
+top_5_titles = [(i['title']) for i in hn_sorted_points[:5]]
+# get top 5 titles
+# get the titles of the top 5 stories by points, we already sorted the list hn_clean by points
+
+
+
+# Reading JSON files into pandas
+
+'''
+we've worked with our JSON data using pure Python. One other option available to us is to convert the JSON to a pandas dataframe and then use pandas methods to manipulate it.
+
+Pandas has the pd.read_json() function, which is designed to read JSON from either a file or a JSON string. In our case, our JSON exists as Python objects already, so we don't need to use this function.
+
+Because the structure of JSON objects can vary a lot, sometimes you will need to prepare your data in order to be able to convert it to a tabular form. In our case, our data is a list of dictionaries, which pandas is easily able to convert to a dataframe.
+
+Let's look at our JSON example again:
+
+jprint(json_obj)
+# jprint is a function that prints JSON objects in a more readable way
+
+[
+    {
+        "age": 36,
+        "favorite_foods": ["Pumpkin", "Oatmeal"],
+        "name": "Sabine"
+    },
+    {
+        "age": 40,
+        "favorite_foods": ["Chicken", "Pizza", "Chocolate"],
+        "name": "Zoe"
+    },
+    {
+        "age": 40,
+        "favorite_foods": ["Caesar Salad"],
+        "name": "Heidi"
+    }
+]
+
+We can convert this JSON to a pandas dataframe by passing it to
+ the pd.DataFrame() constructor:
+
+Each of the dictionaries will become a row in the dataframe, 
+with each key corresponding to a column name.
+
+
+We can use the pd.DataFrame() constructor and pass the list of 
+dictionaries directly to it to convert the JSON to a dataframe:
+
+json_df = pd.DataFrame(json_obj)
+because the JSON data is already in a list of dictionaries, 
+json in python is list of dictionaries or an object,
+
+print(json_df)
+
+age                 favorite_foods    name
+0   36             [Pumpkin, Oatmeal]  Sabine
+1   40    [Chicken, Pizza, Chocolate]     Zoe
+2   40                 [Caesar Salad]   Heidi
+
+In this case, the favorite_foods column contains the list 
+from the JSON. We'll see a similar thing with the tags column
+ for our Hacker News data.
+'''
+
+hn_df = pd.DataFrame(hn_clean)
+# convert hn_clean to a pandas dataframe
+# hn_clean is a list of dictionaries
+# each dictionary will become a row in the dataframe, with each key corresponding
+# to a column name
+
+# Exploring Tags Using the Apply Function
+
+'''
+Just like the favorite_food column in our example data on the
+ previous screen, the tags column is a column where each item 
+ contains the list of data from our original JSON.
+
+ At first glance, it looks like each values in this JSON list
+   contain three items:
+
+The string story
+The name of the author
+The story ID
+
+If that's the case, then the column doesn't contain any 
+unique data, and we can remove it. We're going to analyze this
+ column to make sure that's the case.
+
+tags = hn_df['tags']
+print(tags.dtype)
+
+object
+
+The tags column is stored as an object type. Whenever pandas uses the object type, each item in the series uses a Python object to store the data. Most commonly we see this type used for string data.
+
+We previously learned that we could use the Series.apply() method to apply a function to every item in a series. Let's look at what we get when we pass the type() function as an argument to the column:
+
+tags_types = tags.apply(type)
+type_counts = tags_types.value_counts(dropna=False)
+print(type_counts)
+
+class 'list'    35806
+Name: tags, dtype: int64
+
+All 35,806 items in the column are a Python list type.
+
+Next, let's use Series.apply() to check the length of each of those lists. If our hypothesis from earlier is correct, every row will have a list containing three items:
+
+tags_types = tags.apply(len)
+type_lengths = tags_types.value_counts(dropna=False)
+print(type_lengths)
+
+3    33459
+4     2347
+Name: tags, dtype: int64
+
+While most of the item have three values in the list, about 2,000 
+values contain four values. Let's use a boolean mask to look 
+at the items where the list has four items:
+
+'''
+
+'''
+Instructions
+
+1. Use Series.apply() and len() to create a boolean mask based
+ on whether each item in tags has a length of 4.
+
+2. Use the boolean mask to filter tags. Assign the result to four_tags.
+
+'''
+
+tags = hn_df['tags']
+
+# Series.apply(func, convert_dtype=<no_default>, args=(), *, by_row='compat', **kwargs)
+
+four_tags = tags[tags.apply(func=len) == 4]
+# boolean mask
+
+
+# Extracting Tags Using Apply with a Lambda Function
+
+'''
+ we're going to use a lambda function to extract this fourth value in cases where there is one. To do this for any single list, we'll need to:
+
+Check the length of the list.
+If the length of the list is equal to four, return the last value.
+If the length of the list isn't equal to four, return a null value.
+This is how we could create this as a standard function:
+
+def extract_tag(l):
+    if len(l) == 4:
+        return l[-1]
+    else:
+        return None
+
+
+We could use Series.apply() to apply this function as is, but to practice working with lambda functions, let's look at how we can complete this operation in a single line.
+
+To achieve this, we'll have to use a special version of an if statement known as a ternary operator. You can use the ternary operator whenever you need to return one of two values depending on a boolean expression. The syntax is as follows:
+
+[on_true] if [expression] else [on_false]
+'''
+
+def extract_tag(l):
+    return l[-1] if len(l) == 4 else None
+
+
+cleaned_tags = tags.apply(extract_tag)
+
+hn_df['tags'] = cleaned_tags
+# updated tags
+# apply extract_tag to each item in tags
+# assign the result to cleaned_tags
+# update the tags column in hn_df with the cleaned_tags
+# use the apply() method to apply the extract_tag function to each item in the tags column
+
