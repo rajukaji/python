@@ -460,3 +460,52 @@ This step is important because infer_objects() ensures the data types are
 '''
 
 # Filling in Missing Values 2
+
+means = combined.mean(numeric_only=True)
+
+combined = combined.fillna(value=means)
+
+combined = combined.infer_objects().fillna(0)
+# filling remaining missing values with 0
+
+print(combined.head())
+
+# Adding a School District Column for Mapping
+
+'''
+We've finished cleaning and combining our data! We now have a clean dataset we
+ can base our analysis. Mapping the statistics out on a school district level 
+ might be an interesting way to analyze them. Adding a column to the dataset
+   that specifies the school district helps us accomplish this.
+
+The school district is just the first two characters of the DBN. We can apply a
+ function over the DBN column of combined that pulls out the first two letters.
+
+For example, we can use indexing to extract the first few characters of a string, 
+like this:
+
+name = "Sinbad"
+print(name[0:2])
+'''
+
+'''
+Instructions
+Write a function that extracts the first two characters of a string and returns them.
+
+Apply the function to the DBN column of combined and assign the result to the school_dist
+ column of combined.
+
+Display the first few items in the school_dist column of combined to verify the results.
+'''
+
+def returnChar(string):
+    return string[:2]
+# function that extracts the first two characters of a string
+
+
+combined['school_dist'] = combined['DBN'].apply(returnChar)
+# applying the function to the DBN column and assigning the result to the school_dist column
+
+print(combined['school_dist'].head())
+# displaying the first few items in the school_dist column
+# verifying the results
